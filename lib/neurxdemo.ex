@@ -13,11 +13,23 @@ defmodule NeurxDemo do
     nn = Neurx.build(%{
       input_layer: 3,
       output_layer: %{
-        size: 1
+        size: 1,
+        activation: %{
+          type: "Sigmoid"
+        }
       },
       hidden_layers: [
         %{
-          size: 2
+          size: 3,
+          activation: %{
+            type: "Relu"
+          }
+        },
+        %{
+          size: 3,
+          activation: %{
+            type: "Relu"
+          }
         }
       ]
     })
@@ -25,10 +37,10 @@ defmodule NeurxDemo do
     # Training on simple dataset.
     IO.puts "\nTraining the Network."
     IO.puts "====================================="
-    training_data = NeurxDemo.Data.get_training_data()
+    training_data = NeurxDemo.Data.get_training_data("h")
     options = %{
       epochs: 10000,
-      log_freq: 1000
+      log_freq: 10
     }
     {nn, final_error} = Neurx.train(nn, training_data, options)
     IO.puts "Final Error: #{final_error}"
@@ -36,7 +48,7 @@ defmodule NeurxDemo do
     # Testing the network.
     IO.puts "\nTesting the Network."
     IO.puts "====================================="
-    test_data = NeurxDemo.Data.get_testing_data()
+    test_data = NeurxDemo.Data.get_testing_data("h")
     {nn, outputs} = Neurx.evaluate(nn, test_data)
     IO.puts "Learnt Output (should be close to 1):"
     IO.puts inspect(outputs)
