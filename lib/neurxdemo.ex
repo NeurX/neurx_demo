@@ -20,13 +20,13 @@ defmodule NeurxDemo do
       },
       hidden_layers: [
         %{
-          size: 3,
+          size: 4,
           activation: %{
             type: "Relu"
           }
         },
         %{
-          size: 3,
+          size: 4,
           activation: %{
             type: "Relu"
           }
@@ -37,10 +37,10 @@ defmodule NeurxDemo do
     # Training on simple dataset.
     IO.puts "\nTraining the Network."
     IO.puts "====================================="
-    training_data = NeurxDemo.Data.get_training_data("h")
+    training_data = get_training_data()
     options = %{
       epochs: 10000,
-      log_freq: 10
+      log_freq: 20
     }
     {nn, final_error} = Neurx.train(nn, training_data, options)
     IO.puts "Final Error: #{final_error}"
@@ -48,7 +48,7 @@ defmodule NeurxDemo do
     # Testing the network.
     IO.puts "\nTesting the Network."
     IO.puts "====================================="
-    test_data = NeurxDemo.Data.get_testing_data("h")
+    test_data = NeurxDemo.Data.get_testing_data()
     {nn, outputs} = Neurx.evaluate(nn, test_data)
     IO.puts "Learnt Output (should be close to 1):"
     IO.puts inspect(outputs)
